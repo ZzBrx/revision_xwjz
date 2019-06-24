@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>主控管理</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" th:href="@{~/plugins/fonts/font-icons.min.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/select2/4.0/select2.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/icheck/1.0/minimal/grey.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/jqGrid/4.7/css/ui.jqgrid.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/adminlte/css/AdminLTE.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/common/jeesite.css}">
+
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<style type="text/css">
+#input-dev{
+  background-color: #FFFFFF
+}
+</style>
+</head>
+<body class="hold-transition ">
+	<div class="wrapper">
+		<div class="main-content">
+
+			<div class="box box-main">
+				<div class="box-header">
+					<div class="box-title">
+						<i class="fa fa-list-alt"></i> 其他信息
+					</div>
+				</div>
+			</div>
+
+			<div class="box-body">
+				<form id="searchForm" th:action="@{~/dev/mgt/otherInfoData}"
+					method="post" class="form-inline" th:object="${dse}">
+					<label class="control-label">设备编号：</label>
+					<div class="control-inline">
+						<input readonly="readonly" type="text" id="input-dev" name="devNumber" th:field="*{devNumber}" maxlength="100" class="form-control width-120"/>
+					</div>
+					
+					<label class="control-label">设备名称：</label>
+					<div class="control-inline">
+						<input readonly="readonly" type="text" id="input-dev" name="devName" th:field="*{devName}" maxlength="100" class="form-control width-120"/>
+					</div>
+					
+					<label class="control-label">电表地址：</label>
+					<div class="control-inline">
+						<input readonly="readonly" type="text" id="input-dev" name="emaddress" th:field="*{emaddress}" maxlength="100" class="form-control width-120"/>
+					</div>
+					
+					<input type="hidden" id="id" name="id" th:field="*{id}" />
+				</form>
+				<table id="dataGrid"></table>
+				<div id="dataGridPage"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- wrapper END -->
+	<script th:src="@{~/plugins/common/global.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-1.12.4.min.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-migrate-1.4.1.min.js}"></script>
+	<script th:src="@{~/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/select2.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/i18n/zh_CN.js}"></script>
+	<script th:src="@{~/plugins/layer/3.1/layer.js}"></script>
+	<script th:src="@{~/plugins/my97/WdatePicker.js}"></script>
+	<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.js}"></script>
+	<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.extend.js}"></script>
+	<script th:src="@{~/plugins/common/jeesite.js}"></script>
+	<script th:src="@{~/plugins/common/i18n/jeesite_zh_CN.js}"></script>
+	<script th:inline="javascript">
+		$('#dataGrid').dataGrid({
+			columnModel : [ {
+				header : '开关电源软件版本',
+				name : 'softver',
+				index : 'softver',
+				width : 130,
+				align : "center",
+				sortable : false
+			}, {
+				header : '开关电源硬件版本',
+				name : 'hardver',
+				index : 'hardver',
+				width : 130,
+				align : "center",
+				sortable : false
+			}, {
+				header : '额定功率',
+				name : 'ratedPower',
+				index : 'ratedPower',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '开关电源温度',
+				name : 'powerTemperature',
+				index : 'powerTemperature',
+				width : 110,
+				align : "center",
+				sortable : false
+			}, {
+				header : 'AC输入频率',
+				name : 'acInputPower',
+				index : 'acInputPower',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '输出电压',
+				name : 'outputVoltage',
+				index : 'outputVoltage',
+				width : 100,
+				align : "center",
+				sortable : false
+			}, {
+				header : '输出电流',
+				name : 'outputCurrent',
+				index : 'outputCurrent',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '电池电流',
+				name : 'batteryCurrent',
+				index : 'batteryCurrent',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '加热电流',
+				name : 'heaterCurrent',
+				index : 'heaterCurrent',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '负载电流',
+				name : 'loadCurrent',
+				index : 'loadCurrent',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '电池温度',
+				name : 'batteryTemperature',
+				index : 'batteryTemperature',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '电池放电时间',
+				name : 'batteryDischargeTime',
+				index : 'batteryDischargeTime',
+				width : 110,
+				align : "center",
+				sortable : false
+			}, {
+				header : '当前目标电压',
+				name : 'targetVoltage',
+				index : 'targetVoltage',
+				width : 110,
+				align : "center",
+				sortable : false
+			}, {
+				header : '当前额定电流',
+				name : 'ratedCurrent',
+				index : 'ratedCurrent',
+				width : 110,
+				align : "center",
+				sortable : false
+			}, {
+				header : '电池电量',
+				name : 'batteryQuantity',
+				index : 'batteryQuantity',
+				width : 90,
+				align : "center",
+				sortable : false
+			}]
+		});
+	</script>
+
+
+</body>
+</html>

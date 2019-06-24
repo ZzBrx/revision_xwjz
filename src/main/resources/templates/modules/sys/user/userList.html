@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>用户管理</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" th:href="@{~/plugins/fonts/font-icons.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/select2/4.0/select2.css}">
+<link rel="stylesheet" th:href="@{~/plugins/icheck/1.0/minimal/grey.css}">
+<link rel="stylesheet" th:href="@{~/plugins/jqGrid/4.7/css/ui.jqgrid.css}">
+<link rel="stylesheet" th:href="@{~/plugins/adminlte/css/AdminLTE.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/common/jeesite.css}">
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+	<!-- Google Font -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition ">
+	<div class="wrapper">
+		<div class="main-content">
+		
+			<div class="box box-main">
+				<div class="box-header">
+					<div class="box-title">
+						<i class="fa fa-list-alt"></i> 用户管理
+					</div>
+					<div class="box-tools pull-right">
+						<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a> 
+						<a th:href="@{~/sys/user/form}" class="btn btn-default btnTool" title="新增用户"><i class="fa fa-plus"></i> 新增</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="box-body">
+				<form id="searchForm" th:action="@{~/sys/user/listData}"  method="post" class="form-inline">
+				<div class="form-group">
+					<label class="control-label">登录用户：</label>
+					<div class="control-inline">
+						<input type="text" id="username" name="username" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label">用户姓名：</label>
+					<div class="control-inline">
+						<input type="text" id="name" name="name" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label">电话号码：</label>
+					<div class="control-inline">
+						<input type="text" id="tel" name="tel" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div>
+				</form>
+				<table id="dataGrid"></table>
+				<div id="dataGridPage"></div>
+			</div>
+		</div>
+	</div>
+	<!-- wrapper END -->
+	<script th:src="@{~/plugins/common/global.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-1.12.4.min.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-migrate-1.4.1.min.js}"></script>
+	<script th:src="@{~/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/select2.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/i18n/zh_CN.js}"></script>
+	<script th:src="@{~/plugins/layer/3.1/layer.js}"></script>
+	<script th:src="@{~/plugins/my97/WdatePicker.js}"></script>
+	<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.js}"></script>
+	<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.extend.js}"></script>
+	<script th:src="@{~/plugins/common/jeesite.js}"></script>
+	<script th:src="@{~/plugins/common/i18n/jeesite_zh_CN.js}"></script>
+	<script th:inline="javascript">
+	
+	$('#dataGrid').dataGrid({
+		searchForm: $("#searchForm"),
+		columnModel: [
+			{header:'登录用户', name:'username', index:'a.username', width:100, align:"center", frozen:true,formatter: function(val, obj, row){
+				return '<a href="/sys/user/form?id='+ row.id +'" class="btnList" data-title="编辑用户">'+(val)+'</a>';
+			}},
+			{header:'用户姓名', name:'name', index:'a.name', width:90, align:"center"},
+		    {header:'电话号码', name:'tel', index:'a.tel', width:90, align:"center"},
+			{header:'操作', name:'actions', width:100, align:"center", sortable:false, title:false, formatter: function(val, obj, row){
+				var actions = [];
+					actions.push('<a href="/sys/user/form?id='+ row.id +'" class="btnList" title="编辑用户"><i class="fa fa-pencil"></i></a>&nbsp;');
+					actions.push('<a href="/sys/user/delete?id='+ row.id  +'&username='+ row.username +'" class="btnList" title="删除用户" data-confirm="确认要删除该用户吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+					actions.push('<a href="javascript:" class="btnMore" title="更多操作"><i class="fa fa-chevron-circle-right"></i></a>&nbsp;');
+					actions.push('<div class="moreItems">');
+					actions.push('<a href="/sys/user/allocateDevList?id='+row.id+'" class="btn btn-default btn-xs btnList" title="设备分配用户"><i class="fa fa-user"></i>分配设备</a>&nbsp;');
+					actions.push('</div>');			
+				return actions.join('');
+			}} 
+		],
+		// 加载成功后执行事件
+		ajaxSuccess: function(data){
+			
+		}
+	});
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiger.module.sys.dao.StatusIdenDao">
+
+	<select id="getList" resultType="StatusIden">
+		SELECT
+		dev_status.*
+		FROM dev_status,dev_dse
+		WHERE
+		dev_status.dev_id = dev_dse.id
+		AND
+		dev_status.dev_id = #{dev_id};
+	</select>
+
+	<update id="updateById">
+		UPDATE dev_status SET
+		statusd0 = #{statusd0},
+		statusd1 = #{statusd1},
+		statusd2 = #{statusd2},
+		statusd3 = #{statusd3},
+		statusd4 = #{statusd4},
+		statusd5 = #{statusd5},
+		statusd6 = #{statusd6},
+		statusd7 = #{statusd7},
+		statusd8 = #{statusd8}
+		WHERE
+		dev_id = #{dev_id}
+	</update>
+
+	<insert id="saveStatus" parameterType="StatusIden">
+		INSERT INTO
+		dev_status
+		(id,
+		dev_id,
+		statusd0,
+		statusd1,
+		statusd2,
+		statusd3,
+		statusd4,
+		statusd5,
+		statusd6,
+		statusd7,
+		statusd8
+		)VALUES(
+		#{id},
+		#{dev_id},
+		#{statusd0},
+		#{statusd1},
+		#{statusd2},
+		#{statusd3},
+		#{statusd4},
+		#{statusd5},
+		#{statusd6},
+		#{statusd7},
+		#{statusd8}
+		)
+	</insert>
+
+
+</mapper>

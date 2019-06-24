@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta content="webkit" name="renderer" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="PoweredByJeeSiteV4.0" />
+<meta http-equiv="Cache-Control"
+	content="no-cache, no-store, must-revalidate" />
+<meta name="description" content="PoweredByJeeSiteV4.0" />
+<meta content="no-cache" http-equiv="Pragma" />
+<meta http-equiv="Expires" content="0" />
+<meta content="width=device-width, initial-scale=1, user-scalable=1" name="viewport" />
+<title>登录 - Record Admin</title>
+<link rel="shortcut icon" th:href="@{~/plugins/common/images/favicon.ico}" type="image/x-icon"/>
+<link rel="stylesheet" th:href="@{~/plugins/fonts/font-icons.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/select2/4.0/select2.css}">
+<link rel="stylesheet" th:href="@{~/plugins/icheck/1.0/minimal/grey.css}">
+<link rel="stylesheet" th:href="@{~/plugins/adminlte/css/AdminLTE.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/common/jeesite.css}">
+<link rel="stylesheet" th:href="@{~/plugins/icheck/1.0/square/blue.css}">
+<link rel="stylesheet" th:href="@{~/plugins/jquery-toastr/2.0/toastr.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/modules/sys/sysLogin.css}">
+<link rel="stylesheet" th:href="@{~/plugins/layer/3.1/skin/default/layer.css}">
+<link rel="stylesheet" th:href="@{~/plugins/my97/skin/WdatePicker.css}">
+
+</head>
+<body class="hold-transition login-page">
+  <div class="background-style">
+	<div class="wrapper">
+		<div class="wrapper">
+			<div class="login-box">
+				<div class="login-logo">
+					<a th:href="@{~/login}"><b>微站综合监控系统</b> <small>V1.0</small></a>
+				</div>
+				<div class="login-box-body">
+					<form id="loginForm" action="/login" method="post">
+						<div class="form-group has-feedback">
+							<span class="glyphicon glyphicon-user form-control-feedback" title="登录账号"></span> 
+							<input type="text" id="username" name="username" value="admin" class="form-control required" data-msg-required="请填写登录账号." placeholder="登录账号" />
+						</div>
+						<div class="form-group has-feedback">
+							<span class="glyphicon glyphicon-lock form-control-feedback" title="登录密码，鼠标按下显示密码" onmousedown="$('#password').attr('type','text')" onmouseup="$('#password').attr('type','password')"></span>
+								<input type="password" id="password" name="password" value="123456" class="form-control required" data-msg-required="请填写登录密码." placeholder="登录密码" autocomplete="off"/>
+							</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary btn-block btn-flat" id="btnSubmit" data-loading="登录验证成功，正在进入..."
+								data-login-valid="正在验证登录，请稍后...">立即登录</button>
+						</div>
+					</form>
+				</div>
+				<div class="login-copyright">
+					&copy; 2019 cztp - Powered By <a href="#">Record V1.0.1</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<script th:src="@{~/plugins/common/global.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-1.12.4.min.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-migrate-1.4.1.min.js}"></script>
+	<script th:src="@{~/plugins/jquery-plugins/jquery.form.js}"></script>
+	<script th:src="@{~/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/select2.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/i18n/zh_CN.js}"></script>
+	<script th:src="@{~/plugins/layer/3.1/layer.js}"></script>
+	<script th:src="@{~/plugins/my97/WdatePicker.js}"></script>
+	<script th:src="@{~/plugins/jquery-validation/1.16/jquery.validate.js}"></script>
+	<script th:src="@{~/plugins/jquery-validation/1.16/localization/messages_zh.js}"></script>
+	<script th:src="@{~/plugins/jquery-validation/1.16/jquery.validate.extend.js}"></script>
+	<script th:src="@{~/plugins/common/jeesite.js}"></script>
+	<script th:src="@{~/plugins/common/i18n/jeesite_zh_CN.js}"></script>
+	<script th:src="@{~/plugins/jquery-toastr/2.0/toastr.min.js}"></script>
+	<script th:src="@{~/plugins/common/des.js}"></script>
+	<script th:src="@{~/plugins/modules/sys/sysLogin.js}"></script>
+
+
+</body>

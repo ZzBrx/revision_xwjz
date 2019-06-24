@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiger.module.sys.dao.UpdateFlagDao">
+
+	<select id="getUpdateFlagByDseId" parameterType="UpdateFlag"
+		resultMap="getUpdateFlagResultMap">
+		SELECT
+		dse_id,
+		file_id,
+		packageNo,
+		packageSize,
+		flag
+		FROM
+		dse_update_flag
+		WHERE
+		dse_id = #{dse_id}
+	</select>
+
+	<update id="updateFlagByDseId" parameterType="UpdateFlag">
+		UPDATE
+		dse_update_flag SET
+		flag = #{flag}
+		WHERE dse_id = #{dse_id}
+	</update>
+
+	<update id="updatePackageNoByDseId" parameterType="UpdateFlag">
+		UPDATE
+		dse_update_flag SET
+		packageNo = #{package_no}
+		WHERE dse_id = #{dse_id}
+	</update>
+
+	<select id="getUpdateFlag" resultMap="getUpdateFlagResultMap">
+		SELECT
+		dse_id,
+		file_id,
+		packageNo,
+		packageSize,
+		flag
+		FROM
+		dse_update_flag
+	</select>
+
+	<delete id="deleteUpdateFlagByDseId" parameterType="UpdateFlag">
+		DELETE
+		FROM dse_update_flag WHERE dse_id = #{dse_id}
+	</delete>
+	
+	<insert id="saveUpdateFlag" parameterType="UpdateFlag">
+	  INSERT INTO
+	       dse_update_flag
+        (
+           dse_id,
+           file_id,
+           packageNo,
+           packageSize,
+           flag
+	    ) VALUES (
+	       #{dse_id},
+           #{file_id},
+           #{packageNo},
+           #{packageSize},
+           #{flag}
+		)
+	</insert>
+	
+	<resultMap type="UpdateFlag" id="getUpdateFlagResultMap">
+	    <id column="dse_id" property="dse_id"/>
+	    <result column="file_id" property="file_id"/>
+	    <result column="packageNo" property="packageNo"/>
+	    <result column="packageSize" property="packageSize"/>
+	    <result column="flag" property="flag"/>
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiger.module.sys.dao.AcreditDao">
+
+	<select id="getDevList" parameterType="Acredit"
+		resultType="Acredit">
+		SELECT
+		id,
+		userid,
+		devid,
+		devName,
+		devNumber,
+		devLocation,
+		emaddress
+		FROM
+		user_dev
+		WHERE
+		userid = #{userid}
+		<if test="emaddress != null and emaddress != ''">
+			AND (emaddress like CONCAT('%', #{emaddress}, '%'))
+		</if>
+
+		<if test="devName != null and devName != ''">
+			AND (devName like CONCAT('%', #{devName}, '%'))
+		</if>
+
+		<if test="devNumber != null and devNumber != ''">
+			AND (devNumber like CONCAT('%', #{devNumber}, '%'))
+		</if>
+		
+		<if test="devLocation != null and devLocation != ''">
+			AND (devLocation like CONCAT('%', #{devLocation}, '%'))
+		</if>
+
+	</select>
+
+	<delete id="delete" parameterType="Acredit">
+		DELETE
+		FROM
+		user_dev
+		WHERE
+		devid =
+		#{devid};
+	</delete>
+
+	<delete id="deleteBatches" parameterType="java.util.List">
+		DELETE 
+		FROM 
+		user_dev 
+		WHERE 
+		id 
+		IN
+		<foreach collection="list" item="id" open="(" close=")"
+			index="index" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="getUnauthorizedDevList"
+		parameterType="java.util.List" resultType="Acredit">
+		SELECT
+		distinct a.*
+		FROM
+		dev_dse a
+		WHERE
+		a.id
+		not in
+		<foreach collection="list" item="id" open="(" close=")"
+			index="index" separator=",">
+			#{id}
+		</foreach>
+
+	</select>
+
+
+	<select id="getUnauthorizedDevListWhereIdisNull"
+		resultType="Acredit">
+		SELECT
+		*
+		FROM
+		dev_dse
+		WHERE
+		1=1
+		<if test="emaddress != null and emaddress != ''">
+		AND (emaddress like CONCAT('%', #{emaddress}, '%'))
+		</if>
+	</select>
+
+	<insert id="saveNewAuthorizedDev" parameterType="Acredit">
+		INSERT INTO
+		user_dev
+		(id,
+		userid,
+		devid,
+		devName,
+		devNumber,
+		devLocation,
+		emaddress)
+		VALUES
+		(
+		#{id},
+		#{userid},
+		#{devid},
+		#{devName},
+		#{devNumber},
+		#{devLocation},
+		#{emaddress}
+		)
+	</insert>
+
+	<update id="updateById" parameterType="Acredit">
+		UPDATE
+		user_dev
+		SET
+		devName = #{devName},
+		devNumber = #{devNumber},
+		devLocation = #{devLocation}
+		WHERE
+		devid = #{devid}
+	</update>
+
+</mapper>

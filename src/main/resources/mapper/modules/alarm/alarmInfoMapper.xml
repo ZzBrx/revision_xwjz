@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiger.module.sys.dao.AlarmInfoDao">
+
+	<resultMap type="AlarmInfo" id="getStatusListResultMap">
+		<id column="id" property="id" />
+		<result column="alarmType" property="alarmType" />
+		<result column="startTime" property="startTime" />
+		<result column="endTime" property="endTime" />
+
+		<association property="dse" javaType="Dse">
+			<result column="devName" property="devName" />
+			<result column="emaddress" property="emaddress" />
+		</association>
+	</resultMap>
+
+	<insert id="saveStatus">
+		INSERT INTO
+		alarmInfo
+		(
+		id,
+		dev_id,
+		alarmType,
+		alarmInfo,
+		startTime,
+		alarmFlag,
+		endTime
+		)VALUES(
+		#{id},
+		#{dev_id},
+		#{alarmType},
+		#{alarmInfo},
+		#{startTime},
+		#{alarmFlag},
+		#{endTime}
+		)
+	</insert>
+
+	<select id="get" parameterType="AlarmInfo"
+		resultType="AlarmInfo">
+		SELECT
+		*
+		FROM
+		alarmInfo
+		WHERE
+		dev_id = #{dev_id}
+		AND
+		alarmFlag =
+		#{alarmFlag}
+		AND
+		alarmInfo = #{alarmInfo}
+		AND
+		alarmType = #{alarmType}
+	</select>
+
+	<update id="updateById" parameterType="AlarmInfo">
+		UPDATE
+		alarmInfo
+		SET
+		alarmFlag = #{alarmFlag},
+		endTime = #{endTime}
+		WHERE
+		id = #{id}
+	</update>
+
+	<select id="getHistoryStatusList"
+		resultMap="getStatusListResultMap">
+		SELECT
+		dev_dse.devName,
+		dev_dse.emaddress,
+		alarmInfo.id,
+		alarmInfo.alarmType,
+		alarmInfo.startTime,
+		alarmInfo.endTime
+		FROM
+		dev_dse,alarmInfo
+		WHERE
+		alarmInfo.endTime is not null
+		AND
+		dev_dse.id =
+		alarmInfo.dev_id	
+		<if test="alarmType != null and alarmType != ''">
+			AND (alarmType like CONCAT('%', #{alarmType}, '%'))
+		</if>
+		ORDER BY
+		endTime
+		DESC
+	</select>
+
+	<select id="getCurrentStatusList"
+		resultMap="getStatusListResultMap">
+		SELECT
+		dev_dse.devName,
+		dev_dse.emaddress,
+		alarmInfo.id,
+		alarmInfo.alarmType,
+		alarmInfo.startTime,
+		alarmInfo.endTime
+		FROM
+		dev_dse,alarmInfo
+		WHERE
+		alarmInfo.endTime is null
+		AND
+		dev_dse.id =
+		alarmInfo.dev_id
+		<if test="alarmType != null and alarmType != ''">
+			AND (alarmType like CONCAT('%', #{alarmType}, '%'))
+		</if>
+		ORDER BY
+		startTime
+		DESC
+	</select>
+
+	<delete id="delete">
+		DELETE
+		FROM
+		alarmInfo
+		WHERE
+		<if test=" id != null and id != '' ">
+		id = #{id}
+		</if>
+		
+		<if test=" dev_id != null and dev_id != '' ">
+		dev_id = #{dev_id}
+		</if>
+	</delete>
+
+	<delete id="deleteBatches" parameterType="java.util.List">
+		DELETE 
+		FROM 
+		alarminfo 
+		WHERE 
+		id 
+		IN
+		<foreach collection="list" item="id" open="(" close=")"
+			index="index" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

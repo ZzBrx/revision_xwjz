@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiger.module.sys.dao.MalIdenDao">
+
+	<select id="getList" resultType="MalIden">
+		SELECT
+		dev_mal.*
+		FROM dev_mal,dev_dse
+		WHERE
+		dev_mal.dev_id = dev_dse.id
+		AND
+		dev_mal.dev_id = #{dev_id};
+	</select>
+
+	<update id="updateById">
+		UPDATE dev_mal SET
+		mald0 = #{mald0},
+		mald1 =
+		#{mald1},
+		mald2 = #{mald2},
+		mald3 = #{mald3},
+		mald4 = #{mald4},
+		mald5 =
+		#{mald5},
+		mald6 = #{mald6},
+		mald7 = #{mald7},
+		mald8 = #{mald8},
+		mald9 =
+		#{mald9},
+		mald10 = #{mald10},
+		mald11 = #{mald11}
+		WHERE
+		dev_id = #{dev_id}
+	</update>
+
+	<insert id="saveStatus" parameterType="MalIden">
+		INSERT INTO
+		dev_mal
+		(id,
+		dev_id,
+		mald0,
+		mald1,
+		mald2,
+		mald3,
+		mald4,
+		mald5,
+		mald6,
+		mald7,
+		mald8,
+		mald9,
+		mald10,
+		mald11
+		)VALUES(
+		#{id},
+		#{dev_id},
+		#{mald0},
+		#{mald1},
+		#{mald2},
+		#{mald3},
+		#{mald4},
+		#{mald5},
+		#{mald6},
+		#{mald7},
+		#{mald8},
+		#{mald9},
+		#{mald10},
+		#{mald11}
+		)
+	</insert>
+
+
+</mapper>

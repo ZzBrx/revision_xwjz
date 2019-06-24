@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiger.module.sys.dao.BmsIdenDao">
+
+	<select id="getList" resultType="BmsIden">
+		SELECT
+		dev_bms.*
+		FROM dev_bms,dev_dse
+		WHERE
+		dev_bms.dev_id = dev_dse.id
+		AND
+		dev_bms.dev_id = #{dev_id};
+	</select>
+
+
+	<update id="updateById">
+		UPDATE dev_bms SET
+		bmsd0 = #{bmsd0},
+		bmsd1 = #{bmsd1},
+		bmsd2 = #{bmsd2},
+		bmsd3 = #{bmsd3},
+		bmsd4 = #{bmsd4},
+		bmsd5 = #{bmsd5},
+		bmsd6 = #{bmsd6},
+		bmsd7 = #{bmsd7},
+		bmsd8 = #{bmsd8},
+		bmsd9 = #{bmsd9},
+		bmsd10 = #{bmsd10},
+		bmsd11 = #{bmsd11},
+		bmsd12 = #{bmsd12},
+		bmsd13 = #{bmsd13}
+		WHERE
+		dev_id = #{dev_id}
+	</update>
+
+	<insert id="saveStatus" parameterType="BmsIden">
+		INSERT INTO
+		dev_bms
+		(id,
+		dev_id,
+		bmsd0,
+		bmsd1,
+		bmsd2,
+		bmsd3,
+		bmsd4,
+		bmsd5,
+		bmsd6,
+		bmsd7,
+		bmsd8,
+		bmsd9,
+		bmsd10,
+		bmsd11,
+		bmsd12,
+		bmsd13
+		)VALUES(
+		#{id},
+		#{dev_id},
+		#{bmsd0},
+		#{bmsd1},
+		#{bmsd2},
+		#{bmsd3},
+		#{bmsd4},
+		#{bmsd5},
+		#{bmsd6},
+		#{bmsd7},
+		#{bmsd8},
+		#{bmsd9},
+		#{bmsd10},
+		#{bmsd11},
+		#{bmsd12},
+		#{bmsd13}
+		)
+	</insert>
+
+
+</mapper>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>微站综合监控系统</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="shortcut icon" th:href="@{~/plugins/common/images/favicon.ico}" type="image/x-icon"/>
+  <link rel="stylesheet" th:href="@{~/plugins/fonts/font-icons.min.css}">
+  <link rel="stylesheet" th:href="@{~/plugins/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{~/plugins/select2/4.0/select2.css}">
+  <link rel="stylesheet" th:href="@{~/plugins/icheck/1.0/minimal/grey.css}">
+  <link rel="stylesheet" th:href="@{~/plugins/wdScrollTab/css/TabPanel.css}">
+  <link rel="stylesheet" th:href="@{~/plugins/adminlte/css/AdminLTE.min.css}">
+  <link rel="stylesheet" th:href="@{~/plugins/layer/3.1/skin/default/layer.css}">
+  <link rel="stylesheet" th:href="@{~/plugins/jquery-toastr/2.0/toastr.min.css}">
+  <link rel="stylesheet" th:href="@{~/plugins/adminlte/css/skins/skin-blue-light.css}">
+  <link rel="stylesheet" th:href="@{~/plugins/common/jeesite.css}">
+  <link rel="stylesheet" th:href="@{~/plugins/modules/sys/sysIndex.css}">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition skin-blue sidebar-mini" >
+<div class="wrapper">
+
+<header class="main-header">
+	<nav class="navbar navbar-static-top">
+		<div class="logo" data-toggle="push-menu">
+			<b>微站综合监控系统</b>
+			<small>&nbsp; &nbsp;<i class="fa fa-bars"></i></small>
+		</div>
+		<div class="navbar-custom-menu">
+			<ul class="nav navbar-nav">
+				<li><a href="javascript:" id="fullScreen" title="全屏"><i class="fa fa-arrows-alt"></i></a></li>
+				<!-- <li>
+					<a href="javascript:" th:href="@{~/sys/online/list}" data-title="在线人员" title="在线人员" class="addTabPage">
+						<i class="icon-people"></i><span id="onlineCount" class="label label-success">0</span>
+					</a>
+				</li> -->
+				<!-- <li class="dropdown messages-menu">
+					<a href="javascript:" class="dropdown-toggle" data-hover="dropdown">
+						<i class="fa fa-envelope-o"></i>
+						<span class="label label-success" id="msgNum">0</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="header">你有 <span id="msgNum2">0</span> 条消息</li>
+						<li>
+							<ul class="menu" id="msgList" data-mergeMsgLimit="5" data-mergeMsgTitle="系统消息" data-mergeMsgContent="您有 {0} 条新消息，由于消息太多，这里为您合并，请点击查看按钮看详情。"></ul>
+						</li>
+						<li class="footer"><a href="javascript:" data-href="/js/a/msg/list" data-title="查看全部消息" class="addTabPage">查看全部消息</a></li>
+					</ul>
+					
+				</li> -->
+				<li class="dropdown user-menu mr5">
+					<a href="javascript:" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
+						<img th:src="@{~/plugins/common/images/user.jpg}" class="user-image">
+						<span class="hidden-xs">[[${principal.username}]]</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="/logout">
+								<i class="fa fa-sign-out"></i> 退出登录
+							</a>
+						</li>
+						<li class="mt10"></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</header>
+  
+  <!-- 框架左侧（登录者信息，菜单） BEGIN -->
+  <aside class="main-sidebar">
+    <section class="sidebar">
+      <!-- 菜单侧登录者信息 BEGIN-->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img th:src="@{~/plugins/common/images/user.jpg}" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <!-- <p th:text="${principal.name}"></p> -->
+          <a><i class="fa fa-circle text-success"></i> 在线</a>
+          <a href="/logout"><i class="fa fa-sign-out text-danger"></i> 注销</a>
+        </div>
+      </div>
+      <!-- 菜单侧登录者信息 END-->
+       <!-- 一级菜单 BEGIN -->
+       <!-- 菜单 BEGIN -->
+      <ul class="sidebar-menu" data-widget="tree">
+       <!-- 一级菜单 BEGIN -->
+       <li class="treeview">
+          <a href="#">
+            <i class="fa fa-user"></i> 
+            <span>系统管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+           <!-- 二级级菜单 BEGIN -->
+
+            <li class="treeview">
+              <a href="#"><i class="fa fa-user"></i> 设备管理
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+               <!-- 三级级级菜单 BEGIN -->
+                <li class="treeview" >
+                 <a class="addTabPage" title="设备管理" href="/dev/mgt/list"><i class="fa fa-user"></i>设备管理</a>
+                </li>
+                <li class="treeview" >
+                  <a class="addTabPage" title="设备状态" href="/dev/mgt/statusList"><i class="fa fa-user"></i>设备状态</a>
+                </li>
+                 <!-- 三级级菜单 END -->
+              </ul>
+            </li>
+
+            <li class="treeview">
+              <a href="#"><i class="fa fa-user"></i> 用户管理
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+               <!-- 三级级级菜单 BEGIN -->
+                <li class="treeview" >
+                  <a class="addTabPage" title="用户管理" href="/sys/user/list"><i class="fa fa-user"></i>用户管理</a>
+                </li>
+                 <!-- 三级级菜单 END -->
+              </ul>
+            </li>
+            
+            
+            <li class="treeview">
+              <a href="#"><i class="fa fa-user"></i> 告警管理
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                
+                <li class="treeview" >
+                	<a class="addTabPage" title="当前告警" href="/alarm/currentAlarmList"><i class="fa fa-user"></i>当前告警</a>
+                </li>
+                <li class="treeview" >
+                	<a class="addTabPage" title="历史告警" href="/alarm/historyAlarmList"><i class="fa fa-user"></i>历史告警</a>
+                </li>
+                 <!-- 三级级菜单 END -->
+              </ul>
+              
+            </li>
+            
+           <!-- 二级级菜单 END -->
+          </ul>
+        </li>
+        <!-- 一级菜单 END -->
+      </ul>
+      <!-- 菜单 END -->
+    </section>
+  </aside>
+   <!-- 框架左侧（登录者信息，菜单） END -->
+
+  <!-- 首页中间主要信息 BEGIN -->
+ <div class="content-wrapper">
+	<div id="tabpanel"></div>
+</div>
+  <!-- 首页中间主要信息  END -->
+
+</div>
+<!-- th:href="@{~/desktop}" -->
+<a id="scroll-up" href="#" class="btn btn-sm"><i class="fa fa-angle-double-up"></i></a>
+<div class="hide" id="desktopTabPage" data-title="仪表盘" th:href="@{~/desktop}"></div>
+<script th:src="@{~/plugins/common/global.js}"></script>
+<script th:src="@{~/plugins/jquery/jquery-1.12.4.min.js}"></script>
+<script th:src="@{~/plugins/jquery/jquery-migrate-1.4.1.min.js}"></script>
+<script th:src="@{~/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{~/plugins/select2/4.0/select2.js}"></script>
+<script th:src="@{~/plugins/select2/4.0/i18n/zh_CN.js}"></script>
+<script th:src="@{~/plugins/layer/3.1/layer.js}"></script>
+<script th:src="@{~/plugins/my97/WdatePicker.js}"></script>
+<script th:src="@{~/plugins/wdScrollTab/js/TabPanel.js}"></script>
+<script th:src="@{~/plugins/wdScrollTab/js/TabPanel.extend.js}"></script>
+<script th:src="@{~/plugins/common/i18n/jeesite_zh_CN.js}"></script>
+<script th:src="@{~/plugins/jquery-toastr/2.0/toastr.min.js}"></script>
+<script th:src="@{~/plugins/jquery-plugins/jquery.slimscroll.js}"></script>
+<script th:src="@{~/plugins/common/jeesite.js}"></script>
+<script th:src="@{~/plugins/modules/sys/sysIndex.js}"></script>
+
+</body>
+</html>

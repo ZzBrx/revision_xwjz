@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiger.module.sys.dao.UpdateDataDao">
+
+	<insert id="insert">
+		INSERT INTO
+		dse_update_data
+		VALUES
+		(#{id},
+		#{file_id},
+		#{package_no},
+		#{data}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="UpdateData">
+		DELETE
+		FROM
+		dse_update_data
+		WHERE
+		file_id = #{file_id}
+	</delete>
+
+	<select id="getUpdateDataByFileId" parameterType="UpdateData"
+		resultMap="getUpdateDataByFileIdAndPackageNoResultMap">
+		SELECT
+		id,
+		file_id,
+		package_no,
+		data
+		FROM
+		dse_update_data
+		WHERE
+		file_id = #{file_id}
+	</select>
+
+	<select id="getUpdateDataByFileIdAndPackageNo"
+		parameterType="UpdateData" resultMap="getUpdateDataByFileIdAndPackageNoResultMap">
+		SELECT
+		id,
+		file_id,
+		package_no,
+		data
+		FROM
+		dse_update_data
+		WHERE
+		file_id = #{file_id}
+		AND
+		package_no = #{package_no}
+	</select>
+	
+	<resultMap type="UpdateData" id="getUpdateDataByFileIdAndPackageNoResultMap">
+	  <id column="id" property="id"/>
+	  <result column="file_id" property="file_id"/>
+	  <result column="package_no" property="package_no"/>
+	  <result column="data" property="data"/>
+	</resultMap>
+
+</mapper>

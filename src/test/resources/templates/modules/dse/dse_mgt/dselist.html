@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>主控管理</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" th:href="@{~/plugins/fonts/font-icons.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/select2/4.0/select2.css}">
+<link rel="stylesheet" th:href="@{~/plugins/icheck/1.0/minimal/grey.css}">
+<link rel="stylesheet" th:href="@{~/plugins/jqGrid/4.7/css/ui.jqgrid.css}">
+<link rel="stylesheet" th:href="@{~/plugins/adminlte/css/AdminLTE.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/common/jeesite.css}">
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+	<!-- Google Font -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+	<style>									
+			.tbox {
+			    width: 200px;
+				background: url(/plugins/images/bak.png) no-repeat;
+			}
+			
+			.tbox div {
+			    width: 0px;
+				background: url(/plugins/images/pro.png) no-repeat;
+			}
+	</style>
+</head>
+<body class="hold-transition ">
+	<div class="wrapper">
+		<div class="main-content">
+		
+			<div class="box box-main">
+				<div class="box-header">
+					<div class="box-title">
+						<i class="fa fa-list-alt"></i> 微站管理
+					</div>
+					<div class="box-tools pull-right">
+						<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a> 
+						<a th:href="@{~/dev/mgt/form}" class="btn btn-default btnTool" title="新增设备"><i class="fa fa-plus"></i> 新增设备</a>
+						<a th:href="@{~/upgrade/list}" class="btn btn-default btnTool" title="升级文件"><i class="fa fa-plus"></i> 升级文件</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="box-body">
+				<form id="searchForm" th:action="@{~/dev/mgt/listData}"  method="post" class="form-inline">
+				<div class="form-group">
+					<label class="control-label">设备编号：</label>
+					<div class="control-inline">
+						<input type="text" id="devNumber" name="devNumber" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label">设备名称：</label>
+					<div class="control-inline">
+						<input type="text" id="devName" name="devName" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label">地址信息：</label>
+					<div class="control-inline">
+						<input type="text" id="devLocation" name="devLocation" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label">硬件编码：</label>
+					<div class="control-inline">
+						<input type="text" id="guc" name="guc" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label">电表地址：</label>
+					<div class="control-inline">
+						<input type="text" id="emaddress" name="emaddress" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div>
+				</form>
+				<table id="dataGrid"></table>
+				<div id="dataGridPage"></div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- wrapper END -->
+	<script th:src="@{~/plugins/common/global.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-1.12.4.min.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-migrate-1.4.1.min.js}"></script>
+	<script th:src="@{~/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/select2.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/i18n/zh_CN.js}"></script>
+	<script th:src="@{~/plugins/layer/3.1/layer.js}"></script>
+	<script th:src="@{~/plugins/my97/WdatePicker.js}"></script>
+	<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.js}"></script>
+	<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.extend.js}"></script>
+	<script th:src="@{~/plugins/common/jeesite.js}"></script>
+	<script th:src="@{~/plugins/common/i18n/jeesite_zh_CN.js}"></script>
+	<script th:inline="javascript">
+	
+	$('#dataGrid').dataGrid({
+		searchForm: $("#searchForm"),
+		columnModel: [
+			{header:'设备编号', name:'devNumber', index:'devNumber', width:90, align:"center",sortable:false},
+			{header:'设备名称', name:'devName', index:'devName', width:90, align:"center",sortable:false},
+			{header:'地址信息', name:'devLocation', index:'devLocation', width:60, align:"center",sortable:false},
+			{header:'硬件编码', name:'guc', index:'guc', width:100, align:"center",sortable:false},
+			{header:'电表地址', name:'emaddress', index:'emaddress', width:90, align:"center",sortable:false},
+			{header:'操作', name:'actions', width:80, align:"center", sortable:false, title:false, formatter: function(val, obj, row){
+				var actions = [];
+					actions.push('<a href="/dev/mgt/form?id='+ row.id +'" class="btnList" title="编辑设备"><i class="fa fa-pencil"></i></a>&nbsp;');
+					actions.push('<a href="/dev/mgt/delete?id='+ row.id  +'&ctrlCode='+ row.ctrlCode +'" class="btnList" title="删除设备" data-confirm="确认要删除该设备吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+					actions.push('<a title="升级" onclick="popup(\''+row.id+'\')"><i class="fa fa-refresh"></i></a>&nbsp;');
+					return actions.join('');
+			}},
+			{header:'升级进度', width:90, align:"center",sortable:false,formatter:function(val, obj, row){
+				var actions = [];
+				actions.push('<div class="tbox"><div class=\''+row.id+'\'></div></div>');
+				actions.push('<a href="#" onclick="cancel(\''+row.id+'\')">取消升级</a>');
+				return actions.join('');
+			}}
+		],
+		// 加载成功后执行事件
+		ajaxSuccess: function(data){
+			
+		}
+	});
+	
+	function popup(id){
+		layer.open({
+			type:2
+			,title: false
+			,area: ['1300px', '700px']
+		    ,fixed: false
+		    ,content:['/upgrade/form?id='+id, 'no']
+			}); 
+	}
+	
+	function cancel(dseid){
+    	$.ajax({
+    		type:"POST",
+    		url: "/upgrade/cancel",
+    		data:"dse_id="+ dseid,
+    		success:function(data){
+    			if(data.result=="success"){ 
+    				parent.location.reload();
+				}else if(data.result=="nothingness"){
+					layer.open({
+						  title: '取消结果'
+						  ,content: '该设备当前尚未进行升级！'
+						});
+				}else{
+					layer.open({
+						  title: '取消结果'
+						  ,content: '取消失败！'
+						});
+				}
+    		},
+    		dataType: "json"
+    	}); 
+	}
+	
+	$(function(){
+		 setInterval(progress,1000);
+		 function progress(){
+			 $.ajax({
+					url: '/upgrade/progress',
+					type: 'POST',
+					data:{
+						flag:"1",
+						dse_id:"1"
+					},
+					success: function(data) {
+						var size = data.size;
+						for(var i=0;i<size;i++){
+							var packageSize = data.result[i].packageSize;
+							var packageNo = data.result[i].packageNo;
+							var id = data.result[i].dse_id;
+							var rate = (packageNo / packageSize).toFixed(2)*100;
+							add(rate,id);
+							var flag = data.result[i].flag;
+							if(flag=="03"){
+								var dse_id = data.result[i].dse_id;
+								finished(flag,dse_id);
+								layer.open({
+									title: '升级结果'
+									,content: '升级已完成！'
+									,end: function () {
+										parent.location.reload();
+					 	            }
+								});
+							}
+						}
+						
+					},
+					error: function(data) {
+						
+					}
+				});
+			 
+			 
+		 }
+		});
+	
+	
+	function finished(flag,dse_id){
+		$.ajax({
+			url: '/upgrade/finished',
+			type: 'POST',
+			data:{
+				flag:flag,
+				dse_id:dse_id
+			}
+		});
+		/* window.location.href="/upgrade/finished?flag="+flag+"&dse_id="+dse_id; */
+	} 
+	
+	function add(i,id) {
+		if(i <= 100){
+			var tiao = $("."+id);
+			tiao.css("width", i + "%").html(i + "%");
+		}
+	}
+
+</script>
+
+
+</body>
+</html>

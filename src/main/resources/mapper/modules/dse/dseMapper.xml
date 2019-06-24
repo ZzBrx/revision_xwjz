@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiger.module.sys.dao.DseDao">
+
+	<sql id="dseColumns">
+		id,
+		devName,
+		devNumber,
+		devLocation,
+		guc,
+		emaddress
+	</sql>
+
+	<sql id="dseColumns_1">
+		id,
+		devName,
+		devNumber,
+		devLocation,
+		emaddress,
+		guc
+	</sql>
+
+
+	<sql id="dseColumns_2">
+		id,
+		devNumber,
+		quantity,
+		voltage,
+		current,
+		power,
+		mainStatus,
+		statusIden,
+		malIden,
+		bmsIden,
+		ptNeedle,
+		blackOutAlarm,
+		onlineFlag,
+		createDate
+	</sql>
+	
+	<sql id="dseColumns_3">
+		id,
+		softver,
+		hardver,
+		ratedPower,
+		powerTemperature,
+		acInputPower,
+		outputVoltage,
+		outputCurrent,
+		batteryCurrent,
+		heaterCurrent,
+		loadCurrent,
+		batteryTemperature,
+		batteryDischargeTime,
+		targetVoltage,
+		ratedCurrent,
+		batteryQuantity
+	</sql>
+
+	<select id="get" resultType="Dse">
+		SELECT
+		<include refid="dseColumns_1" />
+		FROM dev_dse
+		<where>
+		1=1
+		  <if test="id != null and id != ''">
+		  and  id = #{id}
+		  </if>		  
+		  <if test="guc != null and guc != ''">
+		  and guc = #{guc}
+		</if>
+		</where>
+	</select>
+
+
+	<select id="getList" resultType="Dse">
+		SELECT
+		<include refid="dseColumns" />
+		FROM
+		dev_dse
+		WHERE
+		1=1
+		<if test="devName != null and devName != ''">
+			AND (devName like CONCAT('%', #{devName}, '%'))
+		</if>
+
+		<if test="devNumber != null and devNumber != ''">
+			AND (devNumber like CONCAT('%', #{devNumber}, '%'))
+		</if>
+
+		<if test="devLocation != null and devLocation != ''">
+			AND (devLocation like CONCAT('%', #{devLocation}, '%'))
+		</if>
+
+		<if test="guc != null and guc != ''">
+			AND (guc like CONCAT('%', #{guc}, '%'))
+		</if>
+
+		<if test="emaddress != null and emaddress != ''">
+			AND (emaddress like CONCAT('%', #{emaddress}, '%'))
+		</if>
+
+		<!-- ORDER BY a.dev_name -->
+	</select>
+
+	<update id="update">
+		UPDATE dev_dse SET
+		devName = #{devName},
+		devNumber = #{devNumber},
+		devLocation = #{devLocation}
+		WHERE
+		id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM dev_dse WHERE id = #{id}
+	</delete>
+	
+	<delete id="delete_status">
+		DELETE FROM dev_status WHERE dev_id = #{id}
+	</delete>
+	
+	<delete id="delete_mal">
+		DELETE FROM dev_mal WHERE dev_id = #{id}
+	</delete>
+	
+	<delete id="delete_bms">
+		DELETE FROM dev_bms WHERE dev_id = #{id}
+	</delete>
+
+	<select id="getStatusList" resultType="Dse">
+		SELECT
+		<include refid="dseColumns_2" />
+		FROM
+		dev_dse
+		WHERE
+		1=1
+		<if test="devNumber != null and devNumber != ''">
+			AND (devNumber like CONCAT('%', #{devNumber}, '%'))
+		</if>
+	</select>
+	
+	
+	<select id="getOtherInfoList" resultType="Dse">
+		SELECT
+		<include refid="dseColumns_3" />
+		FROM
+		dev_dse
+		WHERE
+		id = #{id}
+	</select>
+	
+	
+	<select id="updateDseOnlineById">
+		UPDATE dev_dse SET
+		onlineFlag = #{onlineFlag}
+		WHERE
+		id = #{id}
+	</select>
+	
+	<select id="updateById">
+		UPDATE dev_dse SET
+		guc = #{guc},
+		emaddress = #{emaddress},
+		quantity = #{quantity},
+		voltage = #{voltage},
+		current = #{current},
+		power = #{power},
+		softver = #{softver},
+		hardver = #{hardver},
+		ratedPower = #{ratedPower},
+		mainStatus = #{mainStatus},
+		statusIden = #{statusIden},
+		malIden = #{malIden},
+		powerTemperature = #{powerTemperature},
+		acInputPower = #{acInputPower},
+		outputVoltage = #{outputVoltage},
+		outputCurrent = #{outputCurrent},
+		batteryCurrent = #{batteryCurrent},
+		heaterCurrent = #{heaterCurrent},
+		loadCurrent = #{loadCurrent},
+		batteryTemperature = #{batteryTemperature},
+		targetVoltage = #{targetVoltage},
+		ratedCurrent = #{ratedCurrent},
+		currentLimit = #{currentLimit},
+		batteryDischargeTime = #{batteryDischargeTime},
+		batteryQuantity = #{batteryQuantity},
+		bmsIden = #{bmsIden},
+		ptNeedle = #{ptNeedle},
+		blackOutAlarm = #{blackOutAlarm},
+		createDate = #{createDate},
+		onlineFlag = #{onlineFlag}
+		WHERE
+		id = #{id}
+	</select>
+	
+	
+		<!-- 增加设备 -->
+	<insert id="saveDse" parameterType="Dse">
+		INSERT INTO
+		dev_dse
+		(
+		<!-- id,
+		guc, -->
+		emaddress,
+		quantity,
+		voltage,
+		current,
+		power,
+		softver,
+		hardver,
+		ratedPower,
+		mainStatus,
+		statusIden,
+		malIden,
+		powerTemperature,
+		acInputPower,
+		outputVoltage,
+		outputCurrent,
+		batteryCurrent,
+		heaterCurrent,
+		loadCurrent,
+		batteryTemperature,
+		targetVoltage,
+		ratedCurrent,
+		currentLimit,
+		batteryDischargeTime,
+		batteryQuantity,
+		bmsIden,
+		ptNeedle,
+		blackOutAlarm,
+		onlineFlag,
+		createDate
+		) VALUES (
+
+		<!-- #{id},
+		#{guc}, -->
+		#{emaddress},
+		#{quantity},
+		#{voltage},
+		#{current},
+		#{power},
+		#{softver},
+		#{hardver},
+		#{ratedPower},
+		#{mainStatus},
+		#{statusIden},
+		#{malIden},
+		#{powerTemperature},
+		#{acInputPower},
+		#{outputVoltage},
+		#{outputCurrent},
+		#{batteryCurrent},
+		#{heaterCurrent},
+		#{loadCurrent},
+		#{batteryTemperature},
+		#{targetVoltage},
+		#{ratedCurrent},
+		#{currentLimit},
+		#{batteryDischargeTime},
+		#{batteryQuantity},
+		#{bmsIden},
+		#{ptNeedle},
+		#{blackOutAlarm},
+		#{onlineFlag},
+		#{createDate}
+		)
+	</insert>
+	
+	<insert id="insert" parameterType="Dse">
+	 INSERT INTO
+	 dev_dse
+	 (
+	 id,
+	 devName,
+	 devNumber,
+	 devLocation,
+	 emaddress,
+	 guc
+	 )VALUES(
+	 #{id},
+	 #{devName},
+	 #{devNumber},
+	 #{devLocation},
+	 #{emaddress},
+	 #{guc}
+	 )
+	</insert>
+	
+	<select id="getAllDseList" resultType="Dse">
+	SELECT
+	*
+	FROM
+	dev_dse 
+	</select>
+	
+	
+	<select id="getDseByAddress" resultType="Dse">
+	SELECT
+	*
+	FROM dev_dse
+	where
+	guc = #{guc}	
+	</select>
+
+
+</mapper>

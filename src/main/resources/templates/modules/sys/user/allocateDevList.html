@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>用户管理</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" th:href="@{~/plugins/fonts/font-icons.min.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/select2/4.0/select2.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/icheck/1.0/minimal/grey.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/jqGrid/4.7/css/ui.jqgrid.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/adminlte/css/AdminLTE.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/common/jeesite.css}">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition ">
+	<div class="wrapper">
+		<div class="main-content">
+
+			<div class="box box-main">
+				<div class="box-header">
+					<div class="box-title">
+						<i class="fa fa-list-alt"></i> 已分配设备（用于短信接收）
+					</div>
+					<div class="box-tools pull-right">
+						<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a> 
+						<a href="#" class="btn btn-default" id="btnAddUser" title="添加设备"><i class="fa fa-plus"></i>新增设备</a> 
+						<a href="#" class="btn btn-default" id="btnDelDev" title="移除设备"><i class="fa fa-remove"></i> 批量取消</a>
+					</div>
+				</div>
+			</div>		    
+			
+			<div class="box-body">
+				<form id="searchForm" th:action="@{~/sys/user/allocateDevListData}"  method="post" class="form-inline"
+				th:object="${user}" >
+				
+				<div class="form-group">
+					<label class="control-label">电表地址：</label>
+					<div class="control-inline">
+						<input type="text" id="emaddress" name="emaddress" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label">设备名称：</label>
+					<div class="control-inline">
+						<input type="text" id="devName" name="devName" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label">设备编号：</label>
+					<div class="control-inline">
+						<input type="text" id="devNumber" name="devNumber" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label">设备地址：</label>
+					<div class="control-inline">
+						<input type="text" id="devLocation" name="devLocation" value="" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+                
+                <input type="hidden" id="id" name="id" th:field="*{id}" />
+				
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div>
+				</form>
+				<table id="dataGrid"></table>
+				<div id="dataGridPage"></div>
+			</div>
+		</div>
+	</div>  
+	<!-- wrapper END -->
+	<script th:src="@{~/plugins/common/global.js}"></script>
+				<script th:src="@{~/plugins/jquery/jquery-1.12.4.min.js}"></script>
+				<script th:src="@{~/plugins/jquery/jquery-migrate-1.4.1.min.js}"></script>
+				<script th:src="@{~/plugins/bootstrap/js/bootstrap.min.js}"></script>
+				<script th:src="@{~/plugins/select2/4.0/select2.js}"></script>
+				<script th:src="@{~/plugins/select2/4.0/i18n/zh_CN.js}"></script>
+				<script th:src="@{~/plugins/layer/3.1/layer.js}"></script>
+				<script th:src="@{~/plugins/my97/WdatePicker.js}"></script>
+				<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.js}"></script>
+				<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.extend.js}"></script>
+				<script th:src="@{~/plugins/common/jeesite.js}"></script>
+				<script th:src="@{~/plugins/common/i18n/jeesite_zh_CN.js}"></script>
+				<script th:inline="javascript">
+	
+	$('#dataGrid').dataGrid({
+		searchForm: $("#searchForm"),
+		columnModel: [
+		    /* {header:'设备ID',id:'devid', name:'devid', index:'devid', width:90, align:"center"}, */
+		    {header:'电表地址', name:'emaddress', index:'emaddress', width:90, align:"center"},
+		    {header:'设备名称', name:'devName', index:'devName', width:90, align:"center"},
+			{header:'设备编号', name:'devNumber', index:'devNumber', width:90, align:"center"},
+			{header:'设备地址', name:'devLocation', index:'devLocation', width:90, align:"center"},
+			{header:'操作', name:'actions', width:100, sortable:false, title:false, formatter: function(val, obj, row, act){
+				var actions = [];
+				actions.push('<a href="/sys/user/deleteAuthDev?devid='+row.devid+'" class="btnList" title="不再接受该设备告警短信" data-confirm="确认不再接受该设备告警短信吗？"><i class="fa fa-remove"></i></a>&nbsp;');		
+				return actions.join('');
+			}} 
+		],
+		// 显示单选框
+		showCheckbox:true,
+		// 加载成功后执行事件
+		ajaxSuccess: function(data){
+			
+		}
+	});
+	
+	// 批量删除
+	 $('#btnDelDev').click(function(){
+		var devCords = $('#dataGrid').dataGrid('getSelectRows');
+		if(devCords != null && devCords.length > 0){
+			js.confirm('确定不再接受该设备的告警短信了吗？', function(){
+			   js.ajaxSubmit('/sys/user/deleteBatches',
+				{
+				  devid:devCords.join(',')
+			    }, function(data){
+					js.showMessage(data.message);
+					page();
+				}); 
+			});
+		}else{
+			js.showMessage("请选择要取消接受告警短信的设备");
+		}
+		return false;//不刷新页面
+	});
+	
+	$('#btnAddUser').click(function(){
+		var userid = $('#id').val();
+		layer.open({
+			type:2
+			,title: false
+			,area: ['1200px', '600px']
+			,content: ['/sys/user/allocateNewDevList?id='+userid,'no']
+			}); 
+	});
+	
+	
+
+</script>
+
+</body>
+</html>

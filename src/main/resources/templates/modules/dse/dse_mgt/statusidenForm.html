@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>主控管理</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" th:href="@{~/plugins/fonts/font-icons.min.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/select2/4.0/select2.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/icheck/1.0/minimal/grey.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/jqGrid/4.7/css/ui.jqgrid.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/adminlte/css/AdminLTE.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/common/jeesite.css}">
+
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<style type="text/css">
+#input-dev{
+  background-color: #FFFFFF
+}
+</style>		
+</head>
+<body class="hold-transition ">
+	<div class="wrapper">
+		<div class="main-content">
+
+			<div class="box box-main">
+				<div class="box-header">
+					<div class="box-title">
+						<i class="fa fa-list-alt"></i> 设备状态
+					</div>
+				</div>
+			</div>
+
+			<div class="box-body">
+				<form id="searchForm" th:action="@{~/dev/mgt/statusidenData}"
+					method="post" class="form-inline" th:object="${dse}">
+					
+					<label class="control-label">设备编号：</label>
+					<div class="control-inline">
+						<input readonly="readonly" type="text" id="input-dev" name="devNumber" th:field="*{devNumber}" maxlength="100" class="form-control width-120"/>
+					</div>
+					
+					<label class="control-label">设备名称：</label>
+					<div class="control-inline">
+						<input readonly="readonly" type="text" id="input-dev" name="devName" th:field="*{devName}" maxlength="100" class="form-control width-120"/>
+					</div>
+					
+					<label class="control-label">电表地址：</label>
+					<div class="control-inline">
+						<input readonly="readonly" type="text" id="input-dev" name="emaddress" th:field="*{emaddress}" maxlength="100" class="form-control width-120"/>
+					</div>
+					
+					 <input type="hidden" id="id" name="id" th:field="*{id}" />
+				</form>
+				<table id="dataGrid"></table>
+				<div id="dataGridPage"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- wrapper END -->
+	<script th:src="@{~/plugins/common/global.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-1.12.4.min.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-migrate-1.4.1.min.js}"></script>
+	<script th:src="@{~/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/select2.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/i18n/zh_CN.js}"></script>
+	<script th:src="@{~/plugins/layer/3.1/layer.js}"></script>
+	<script th:src="@{~/plugins/my97/WdatePicker.js}"></script>
+	<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.js}"></script>
+	<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.extend.js}"></script>
+	<script th:src="@{~/plugins/common/jeesite.js}"></script>
+	<script th:src="@{~/plugins/common/i18n/jeesite_zh_CN.js}"></script>
+	<script th:inline="javascript">
+		$('#dataGrid').dataGrid({
+			columnModel : [ {
+				header : '变换器开机',
+				name : 'statusd0',
+				index : 'statusd0',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '输入源类型',
+				name : 'statusd1',
+				index : 'statusd1',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '电源运行',
+				name : 'statusd2',
+				index : 'statusd2',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '校准文件',
+				name : 'statusd3',
+				index : 'statusd3',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '配置文件',
+				name : 'statusd4',
+				index : 'statusd4',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '高温降额',
+				name : 'statusd5',
+				index : 'statusd5',
+				width : 100,
+				align : "center",
+				sortable : false
+			}, {
+				header : '低输入降额',
+				name : 'statusd6',
+				index : 'statusd6',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '错峰模式',
+				name : 'statusd7',
+				index : 'statusd7',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '电池充满',
+				name : 'statusd8',
+				index : 'statusd8',
+				width : 90,
+				align : "center",
+				sortable : false
+			} ]
+		});
+	</script>
+
+
+</body>
+</html>

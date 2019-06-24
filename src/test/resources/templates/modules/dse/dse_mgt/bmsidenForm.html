@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>主控管理</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" th:href="@{~/plugins/fonts/font-icons.min.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/select2/4.0/select2.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/icheck/1.0/minimal/grey.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/jqGrid/4.7/css/ui.jqgrid.css}">
+<link rel="stylesheet"
+	th:href="@{~/plugins/adminlte/css/AdminLTE.min.css}">
+<link rel="stylesheet" th:href="@{~/plugins/common/jeesite.css}">
+
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<style type="text/css">
+#input-dev{
+  background-color: #FFFFFF
+}
+</style>
+</head>
+<body class="hold-transition ">
+	<div class="wrapper">
+		<div class="main-content">
+
+			<div class="box box-main">
+				<div class="box-header">
+					<div class="box-title">
+						<i class="fa fa-list-alt"></i> BMS标志组
+					</div>
+				</div>
+			</div>
+
+			<div class="box-body">
+				<form id="searchForm" th:action="@{~/dev/mgt/bmsidenData}"
+					method="post" class="form-inline" th:object="${dse}">
+					
+					
+					<label class="control-label">设备编号：</label>
+					<div class="control-inline">
+						<input readonly="readonly" type="text" id="input-dev" name="devNumber" th:field="*{devNumber}" maxlength="100" class="form-control width-120"/>
+					</div>
+					
+					<label class="control-label">设备名称：</label>
+					<div class="control-inline">
+						<input readonly="readonly" type="text" id="input-dev" name="devName" th:field="*{devName}" maxlength="100" class="form-control width-120"/>
+					</div>
+					
+					<label class="control-label">电表地址：</label>
+					<div class="control-inline">
+						<input readonly="readonly" type="text" id="input-dev" name="emaddress" th:field="*{emaddress}" maxlength="100" class="form-control width-120"/>
+					</div>
+	
+					<input type="hidden" id="id" name="id" th:field="*{id}" />
+				</form>
+				<table id="dataGrid"></table>
+				<div id="dataGridPage"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- wrapper END -->
+	<script th:src="@{~/plugins/common/global.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-1.12.4.min.js}"></script>
+	<script th:src="@{~/plugins/jquery/jquery-migrate-1.4.1.min.js}"></script>
+	<script th:src="@{~/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/select2.js}"></script>
+	<script th:src="@{~/plugins/select2/4.0/i18n/zh_CN.js}"></script>
+	<script th:src="@{~/plugins/layer/3.1/layer.js}"></script>
+	<script th:src="@{~/plugins/my97/WdatePicker.js}"></script>
+	<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.js}"></script>
+	<script th:src="@{~/plugins/jqGrid/4.7/js/jquery.jqGrid.extend.js}"></script>
+	<script th:src="@{~/plugins/common/jeesite.js}"></script>
+	<script th:src="@{~/plugins/common/i18n/jeesite_zh_CN.js}"></script>
+	<script th:inline="javascript">
+		$('#dataGrid').dataGrid({
+			columnModel : [ {
+				header : '充电器运行',
+				name : 'bmsd0',
+				index : 'bmsd0',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '电池检出',
+				name : 'bmsd1',
+				index : 'bmsd1',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '电池接通',
+				name : 'bmsd2',
+				index : 'bmsd2',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '均充状态',
+				name : 'bmsd3',
+				index : 'bmsd3',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '充电过流保护',
+				name : 'bmsd4',
+				index : 'bmsd4',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '放电过流保护',
+				name : 'bmsd5',
+				index : 'bmsd5',
+				width : 100,
+				align : "center",
+				sortable : false
+			}, {
+				header : '短路保护',
+				name : 'bmsd6',
+				index : 'bmsd6',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : 'MOS高温保护',
+				name : 'bmsd7',
+				index : 'bmsd7',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '环境高温保护',
+				name : 'bmsd8',
+				index : 'bmsd8',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '环境低温保护',
+				name : 'bmsd9',
+				index : 'bmsd9',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '使用Pack供电指示',
+				name : 'bmsd10',
+				index : 'bmsd10',
+				width : 110,
+				align : "center",
+				sortable : false
+			}, {
+				header : '放电MOS故障',
+				name : 'bmsd11',
+				index : 'bmsd11',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '充电MOS故障',
+				name : 'bmsd12',
+				index : 'bmsd12',
+				width : 90,
+				align : "center",
+				sortable : false
+			}, {
+				header : '电芯故障',
+				name : 'bmsd13',
+				index : 'bmsd13',
+				width : 90,
+				align : "center",
+				sortable : false
+			}]
+		});
+	</script>
+
+
+</body>
+</html>
